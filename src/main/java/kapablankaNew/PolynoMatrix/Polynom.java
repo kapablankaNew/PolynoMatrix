@@ -198,7 +198,6 @@ public class Polynom {
         return result;
     }
 
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
