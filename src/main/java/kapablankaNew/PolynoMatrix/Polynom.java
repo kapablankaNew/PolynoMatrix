@@ -91,6 +91,114 @@ public class Polynom {
         parameters = newParameters;
     }
 
+    public Polynom add (Polynom second){
+        Polynom result = new Polynom();
+        simplify();
+        second.simplify();
+        List<List<String>> resultParameters = new ArrayList<>();
+        List<Double> resultCoefficients = new ArrayList<>();
+        List<List<String>> firstParameters = parameters;
+        List<Double> firstCoefficients = coefficients;
+        List<List<String>> secondParameters = second.parameters;
+        List<Double> secondCoefficients = second.coefficients;
+        for (int i = 0; i < firstParameters.size(); i++) {
+            double coeff = firstCoefficients.get(i);
+            List<String> params = firstParameters.get(i);
+            Collections.sort(params);
+            for (int j = 0; j < secondParameters.size(); j++) {
+                List<String> secondParams = secondParameters.get(j);
+                Collections.sort(secondParams);
+                if (params.equals(secondParams)) {
+                    coeff += secondCoefficients.get(j);
+                }
+            }
+
+            resultCoefficients.add(coeff);
+            resultParameters.add(params);
+        }
+
+        for (int i = 0; i < secondParameters.size(); i++){
+            List<String> params = secondParameters.get(i);
+            Collections.sort(params);
+            if (! resultParameters.contains(params)) {
+                resultCoefficients.add(secondCoefficients.get(i));
+                resultParameters.add(secondParameters.get(i));
+            }
+        }
+        result.coefficients = resultCoefficients;
+        result.parameters = resultParameters;
+        result.simplify();
+        return result;
+    }
+
+    public Polynom subtract (Polynom second){
+        Polynom result = new Polynom();
+        simplify();
+        second.simplify();
+        List<List<String>> resultParameters = new ArrayList<>();
+        List<Double> resultCoefficients = new ArrayList<>();
+        List<List<String>> firstParameters = parameters;
+        List<Double> firstCoefficients = coefficients;
+        List<List<String>> secondParameters = second.parameters;
+        List<Double> secondCoefficients = second.coefficients;
+        for (int i = 0; i < firstParameters.size(); i++) {
+            double coeff = firstCoefficients.get(i);
+            List<String> params = firstParameters.get(i);
+            Collections.sort(params);
+            for (int j = 0; j < secondParameters.size(); j++) {
+                List<String> secondParams = secondParameters.get(j);
+                Collections.sort(secondParams);
+                if (params.equals(secondParams)) {
+                    coeff -= secondCoefficients.get(j);
+                }
+            }
+
+            resultCoefficients.add(coeff);
+            resultParameters.add(params);
+        }
+
+        for (int i = 0; i < secondParameters.size(); i++){
+            List<String> params = secondParameters.get(i);
+            Collections.sort(params);
+            if (! resultParameters.contains(params)) {
+                resultCoefficients.add(-secondCoefficients.get(i));
+                resultParameters.add(secondParameters.get(i));
+            }
+        }
+        result.coefficients = resultCoefficients;
+        result.parameters = resultParameters;
+        result.simplify();
+        return result;
+    }
+
+    public Polynom multiply (Polynom second) {
+        Polynom result = new Polynom();
+        simplify();
+        second.simplify();
+        List<List<String>> resultParameters = new ArrayList<>();
+        List<Double> resultCoefficients = new ArrayList<>();
+        List<List<String>> firstParameters = parameters;
+        List<Double> firstCoefficients = coefficients;
+        List<List<String>> secondParameters = second.parameters;
+        List<Double> secondCoefficients = second.coefficients;
+        for (int i = 0; i < firstParameters.size(); i++) {
+            for (int j = 0; j < secondParameters.size(); j++) {
+                double coeff = firstCoefficients.get(i)*secondCoefficients.get(j);
+                List<String> params = new ArrayList<>();
+                params.addAll(firstParameters.get(i));
+                params.addAll(secondParameters.get(j));
+                resultCoefficients.add(coeff);
+                resultParameters.add(params);
+            }
+        }
+
+        result.coefficients = resultCoefficients;
+        result.parameters = resultParameters;
+        result.simplify();
+        return result;
+    }
+
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
