@@ -57,6 +57,67 @@ public class Matrix {
         }
     }
 
+    public Matrix add(Matrix second) {
+        if (getRows() != second.getRows() || getColumns() != second.getColumns()) {
+            throw new IllegalArgumentException("The dimensions og the matrix do not match!");
+        }
+        Matrix result = new Matrix(getRows(), getColumns());
+
+        for (int i = 0; i < getRows(); i++) {
+            for(int j = 0; j < getColumns(); j++) {
+                Polynom cell = getCells().get(i).get(j).add(second.getCells().get(i).get(j));
+                cell.simplify();
+                result.getCells().get(i).set(j, cell);
+            }
+        }
+        return result;
+    }
+
+    public Matrix subtract(Matrix second){
+        if (getRows() != second.getRows() || getColumns() != second.getColumns()) {
+            throw new IllegalArgumentException("The dimensions og the matrix do not match!");
+        }
+        Matrix result = new Matrix(getRows(), getColumns());
+
+        for (int i = 0; i < getRows(); i++) {
+            for(int j = 0; j < getColumns(); j++) {
+                Polynom cell = getCells().get(i).get(j).subtract(second.getCells().get(i).get(j));
+                cell.simplify();
+                result.getCells().get(i).set(j, cell);
+            }
+        }
+        return result;
+    }
+
+    public Matrix multiply(Matrix second) {
+        if (getColumns() != second.getRows()) {
+            throw new IllegalArgumentException("Matrix dimension aren't compatible!");
+        }
+        Matrix result = new Matrix(getRows(), second.getColumns());
+
+        for (int i = 0; i < result.getRows(); i++) {
+            for (int j = 0; j < result.getColumns(); j++) {
+                Polynom cell = new Polynom();
+                for (int r = 0; r < getColumns(); r++) {
+                    Polynom addend = getCells().get(i).get(r).multiply(second.getCells().get(r).get(j));
+                    cell = cell.add(addend);
+                }
+                result.getCells().get(i).set(j, cell);
+            }
+        }
+        return result;
+    }
+
+    public Matrix transpose() {
+        Matrix result = new Matrix(getColumns(), getRows());
+        for (int i = 0; i < getColumns(); i++) {
+            for (int j = 0; j < getRows(); j++) {
+                result.getCells().get(i).set(j, getCells().get(j).get(i));
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
