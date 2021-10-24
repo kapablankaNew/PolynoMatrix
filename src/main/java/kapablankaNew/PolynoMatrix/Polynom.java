@@ -200,13 +200,14 @@ public class Polynom {
 
     @Override
     public String toString() {
+        simplify();
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < coefficients.size(); i++){
             if (i != 0 && coefficients.get(i) >= 0) {
                 result.append("+");
             }
-            if (coefficients.get(i) != 1.0 || (parameters.get(i).size() == 1 &&
-                    parameters.get(i).get(0).equals(""))){
+            if (coefficients.get(i) != 1.0 || parameters.get(i).size() == 0 ||
+                    (parameters.get(i).size() == 1 && parameters.get(i).get(0).equals(""))){
                 result.append(coefficients.get(i));
             }
             for (int j = 0; j < parameters.get(i).size(); j++){
@@ -217,6 +218,9 @@ public class Polynom {
                     result.append(parameters.get(i).get(j));
                 }
             }
+        }
+        if (result.isEmpty()) {
+            result.append("0.0");
         }
         return result.toString();
     }

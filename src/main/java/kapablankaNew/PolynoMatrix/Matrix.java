@@ -149,9 +149,10 @@ public class Matrix {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < rows; i++) {
+            builder.append("|");
             for (int j = 0; j < columns; j++) {
                 builder.append(cells.get(i).get(j).toString());
-                builder.append("\t");
+                builder.append("|");
             }
             builder.append("\n");
         }
